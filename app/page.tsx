@@ -20,8 +20,8 @@ export default async function Home() {
               src={p.images[0].url}
               alt={p.name}
               fill
-              sizes="(max-width: 700px) 50vw, (max-width: 1100px) 33vw, (max-width: 1600px) 25vw, 20vw"
-              priority={i < 4}
+              sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 17vw"
+              priority={i < 6}
             />
           </div>
           <div className="tile-caption">{p.name}</div>

@@ -3,7 +3,7 @@
     {
       "id": "swiss",
       "slug": "swiss",
-      "name": "Swiss International Air Lines",
+      "name": "SWISS",
       "info": "Placeholder text: send me one sentence about this project and I will put it here.",
       "images": [
         {
@@ -36,7 +36,7 @@
     {
       "id": "placeholder-2",
       "slug": "placeholder-2",
-      "name": "Placeholder project 2",
+      "name": "PROJECT-02",
       "info": "Placeholder text for the Information link.",
       "images": [
         {
@@ -54,7 +54,7 @@
     {
       "id": "placeholder-3",
       "slug": "placeholder-3",
-      "name": "Placeholder project 3",
+      "name": "PROJECT-03",
       "info": "Placeholder text for the Information link.",
       "images": [
         {
@@ -82,7 +82,7 @@
     {
       "id": "placeholder-4",
       "slug": "placeholder-4",
-      "name": "Placeholder project 4",
+      "name": "PROJECT-04",
       "info": "Placeholder text for the Information link.",
       "images": [
         {
@@ -110,7 +110,7 @@
     {
       "id": "placeholder-5",
       "slug": "placeholder-5",
-      "name": "Placeholder project 5",
+      "name": "PROJECT-05",
       "info": "Placeholder text for the Information link.",
       "images": [
         {
@@ -128,7 +128,7 @@
     {
       "id": "placeholder-6",
       "slug": "placeholder-6",
-      "name": "Placeholder project 6",
+      "name": "PROJECT-06",
       "info": "Placeholder text for the Information link.",
       "images": [
         {
@@ -151,7 +151,7 @@
     {
       "id": "placeholder-7",
       "slug": "placeholder-7",
-      "name": "Placeholder project 7",
+      "name": "PROJECT-07",
       "info": "Placeholder text for the Information link.",
       "images": [
         {
@@ -179,7 +179,7 @@
     {
       "id": "placeholder-8",
       "slug": "placeholder-8",
-      "name": "Placeholder project 8",
+      "name": "PROJECT-08",
       "info": "Placeholder text for the Information link.",
       "images": [
         {

@@ -47,47 +47,39 @@ button {
 }
 
 /* ---------- header ---------- */
+/* yeezy.com: header text at top 20px, 24px line, content starts at 64px */
 .site-header {
   display: flex;
   justify-content: center;
-  padding: 22px var(--gutter) 8px;
+  padding: 20px var(--gutter) 0;
+  height: 64px;
 }
 .site-title {
-  font-size: 16px;
-  font-weight: 500; /* Medium */
-  letter-spacing: normal;
-  text-transform: uppercase;
+  font-weight: 400;
+  color: #343434;
 }
 
 /* ---------- grid (home) ---------- */
+/* yeezy.com: 16px gaps, 0 16px 32px padding, 6 columns at ~1069px wide */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 12px;
-  row-gap: 36px;
-  padding: 32px var(--gutter) 80px;
-  max-width: 1800px;
-  margin: 0 auto;
+  gap: 16px;
+  padding: 0 16px 32px;
 }
-@media (min-width: 700px) {
+@media (min-width: 640px) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    column-gap: 32px;
-    row-gap: 56px;
-    padding: 48px 40px 120px;
   }
 }
-@media (min-width: 1100px) {
+@media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    column-gap: 48px;
-    row-gap: 72px;
-    padding: 56px 64px 140px;
   }
 }
-@media (min-width: 1600px) {
+@media (min-width: 1024px) {
   .grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 }
 
@@ -107,10 +99,7 @@ button {
   opacity: 0.85;
 }
 .tile-caption {
-  margin-top: 12px;
   text-align: center;
-  text-transform: uppercase;
-  letter-spacing: normal;
 }
 
 .empty {
@@ -124,7 +113,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 0 80px;
+  padding: 0 0 80px;
 }
 
 .carousel {
@@ -258,7 +247,7 @@ button {
 /* back-to-home arrow, top left on project pages */
 .home-arrow {
   position: absolute;
-  top: 12px;
+  top: 14px;
   left: 8px;
   width: 44px;
   height: 36px;
