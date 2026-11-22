@@ -119,16 +119,12 @@ button {
   user-select: none;
   touch-action: pan-y;
 }
+/* yeezy.com product image = window height minus 448px
+   (358px in an 806px-tall window, 219px in a 667px-tall phone), never wider than the screen allows */
 .stage {
   position: relative;
-  width: min(100vw, 62vh, 760px);
+  width: max(160px, min(calc(100vw - 120px), calc(100vh - 448px)));
   aspect-ratio: 1 / 1;
-}
-@media (min-width: 700px) {
-  .stage {
-    /* yeezy.com product image: 358px in a 806px-tall window */
-    width: min(calc(100vw - 200px), 44.4vh);
-  }
 }
 .slide {
   position: absolute;
@@ -206,6 +202,7 @@ button {
 
 .project-name {
   margin: 12px 0 0;
+  padding: 0 16px;
   font-weight: 500; /* Medium */
   text-align: center;
   text-transform: uppercase;
