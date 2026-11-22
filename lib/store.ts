@@ -22,7 +22,7 @@ export async function getProjects(): Promise<Project[]> {
     }
   }
   const { blobs } = await list({ prefix: BLOB_PREFIX });
-  if (!blobs.length) return [];
+  if (!blobs.length) return readContentFolder(); // nothing saved yet: start from the preview projects
   const latest = blobs.sort((a, b) => +new Date(b.uploadedAt) - +new Date(a.uploadedAt))[0];
   const res = await fetch(latest.url);
   if (!res.ok) return [];
