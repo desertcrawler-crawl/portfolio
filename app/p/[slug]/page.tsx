@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { getProject, getProjects } from "@/lib/store";
 import { SITE_TITLE } from "@/lib/config";
 import Carousel from "@/components/Carousel";
@@ -28,6 +29,12 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <main className="project">
+      <Link href="/" className="home-arrow" aria-label="Back to all projects">
+        <svg viewBox="0 0 24 16" aria-hidden="true">
+          <line x1="23" y1="8" x2="1.5" y2="8" />
+          <polyline points="8,1 1,8 8,15" />
+        </svg>
+      </Link>
       <Carousel name={project.name} info={project.info} images={project.images} />
     </main>
   );

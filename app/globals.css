@@ -254,3 +254,32 @@ button {
 .back:hover {
   color: var(--fg);
 }
+
+/* back-to-home arrow, top left on project pages */
+.home-arrow {
+  position: absolute;
+  top: 12px;
+  left: 8px;
+  width: 44px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+.home-arrow svg {
+  width: 22px;
+  height: 15px;
+  stroke: var(--fg);
+  stroke-width: 1.2;
+  fill: none;
+}
+.home-arrow:hover svg {
+  stroke-width: 1.8;
+}
+@media (min-width: 700px) {
+  .home-arrow {
+    top: 14px;
+    left: 28px;
+  }
+}
