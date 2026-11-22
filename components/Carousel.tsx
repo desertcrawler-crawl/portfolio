@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { isSvg, type ProjectImage } from "@/lib/types";
+import { PROJECT_IMAGE_SIZES, isSvg, type ProjectImage } from "@/lib/types";
 import { zoomEvents } from "@/lib/zoom";
 
 type Props = { name: string; info: string; images: ProjectImage[] };
@@ -51,7 +51,7 @@ export default function Carousel({ name, info, images }: Props) {
                 src={img.url}
                 alt={`${name} — image ${i + 1} of ${count}`}
                 fill
-                sizes="(max-width: 700px) 100vw, 760px"
+                sizes={PROJECT_IMAGE_SIZES}
                 priority={i === 0}
                 onLoad={i === 0 ? () => zoomEvents.end() : undefined}
                 unoptimized={isSvg(img.url)}

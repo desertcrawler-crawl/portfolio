@@ -2,7 +2,7 @@
 
 // Tiny shared state for the "zoom into project" transition: the front page starts it,
 // the project page ends it once its first image has loaded.
-export type ZoomStart = { src: string; from: DOMRect; to: DOMRect };
+export type ZoomStart = { src: string; thumb: string; from: DOMRect; to: DOMRect };
 type Listener = (e: { type: "start"; data: ZoomStart } | { type: "end" }) => void;
 
 const listeners = new Set<Listener>();
@@ -33,4 +33,30 @@ export function projectImageRect(): DOMRect {
   probe.remove();
   const vw = document.documentElement.clientWidth;
   return new DOMRect((vw - w) / 2, 64, w, w);
+}
+
+// Full-size versions of front page images, fetched the same way the project page will
+// fetch them (same file list and sizes), so the flying image is sharp and the project
+// page then finds the file already downloaded.
+const loaded = new Map<string, Promise<string>>();
+export function preloadFull(key: string, srcSet: string | undefined, sizes: string, src: string): Promise<string> {
+  let p = loaded.get(key);
+  if (!p) {
+    const img = new Image();
+    img.decoding = "async";
+    if (srcSet) {
+      img.sizes = sizes;
+      img.srcset = srcSet;
+    }
+    img.src = src;
+    p = img
+      .decode()
+      .then(() => img.currentSrc || img.src)
+      .catch(() => {
+        loaded.delete(key);
+        return src;
+      });
+    loaded.set(key, p);
+  }
+  return p;
 }
