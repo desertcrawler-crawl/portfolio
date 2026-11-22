@@ -13,3 +13,4 @@ export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 // Footer on the front page opens an email to this address.
 export const CONTACT_EMAIL = "selle@me.com";
+export const CONTACT_SUBJECT = "Hej Niclas";

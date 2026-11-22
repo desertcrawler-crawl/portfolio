@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getProjects } from "@/lib/store";
-import { CONTACT_EMAIL } from "@/lib/config";
+import { CONTACT_EMAIL, CONTACT_SUBJECT } from "@/lib/config";
 import { isSvg } from "@/lib/types";
 
 export const revalidate = 3600;
@@ -33,7 +33,7 @@ export default async function Home() {
       ))}
     </main>
     <footer className="site-footer">
-      <a href={`mailto:${CONTACT_EMAIL}`}>
+      <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`}>
         <span>Niclas Sellebråten</span>
         <span>Art Director &amp; Type Consultant</span>
         <span>Open for work</span>
