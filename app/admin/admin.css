@@ -155,3 +155,39 @@
 .admin .actions button:disabled {
   opacity: 0.3;
 }
+.admin .drag-handle {
+  font-size: 20px;
+  line-height: 1;
+  padding: 10px 6px;
+  color: #999;
+  cursor: grab;
+  touch-action: none;
+}
+.admin .drag-handle:active {
+  cursor: grabbing;
+}
+.admin .thumb {
+  cursor: grab;
+  user-select: none;
+}
+.admin .thumb .badge {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: #000;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 5px;
+}
+.admin .thumb .remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  font-size: 12px;
+  cursor: pointer;
+}

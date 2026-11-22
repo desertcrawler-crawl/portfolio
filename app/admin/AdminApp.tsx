@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { upload } from "@vercel/blob/client";
+import { SortableItem, SortableList } from "./Sortable";
 import { MAX_IMAGES, MIN_IMAGES, type Project, type ProjectImage } from "@/lib/types";
 
 type Draft = { id?: string; name: string; info: string; images: ProjectImage[] };
@@ -17,14 +18,6 @@ function readSize(file: File): Promise<{ width: number; height: number }> {
     img.onerror = () => resolve({ width: 1024, height: 1024 });
     img.src = URL.createObjectURL(file);
   });
-}
-
-function move<T>(arr: T[], from: number, to: number): T[] {
-  if (to < 0 || to >= arr.length) return arr;
-  const copy = arr.slice();
-  const [x] = copy.splice(from, 1);
-  copy.splice(to, 0, x);
-  return copy;
 }
 
 export default function AdminApp({ initial, storage }: Props) {
@@ -156,30 +149,17 @@ export default function AdminApp({ initial, storage }: Props) {
           />
 
           <span className="label">
-            Images ({draft.images.length} of {MIN_IMAGES}–{MAX_IMAGES}). The first one is shown on the front page.
+            Images ({draft.images.length} of {MIN_IMAGES}–{MAX_IMAGES}). Drag to change the order. The first one is shown on
+            the front page.
           </span>
-          <div className="thumbs">
-            {draft.images.map((img, i) => (
-              <figure key={img.url} className="thumb">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.url} alt="" />
-                {img.width !== img.height && <span className="warn">Not square</span>}
-                <figcaption>
-                  <button title="Move left" onClick={() => setDraft({ ...draft, images: move(draft.images, i, i - 1) })}>
-                    ←
-                  </button>
-                  <button
-                    title="Remove"
-                    onClick={() => setDraft({ ...draft, images: draft.images.filter((_, k) => k !== i) })}
-                  >
-                    ✕
-                  </button>
-                  <button title="Move right" onClick={() => setDraft({ ...draft, images: move(draft.images, i, i + 1) })}>
-                    →
-                  </button>
-                </figcaption>
-              </figure>
-            ))}
+          <SortableList
+            items={draft.images}
+            getId={(img) => img.url}
+            onReorder={(images) => setDraft({ ...draft, images })}
+            layout="grid"
+            className="thumbs"
+            after={
+              <>
             {draft.images.length < MAX_IMAGES && (
               <label className="thumb add">
                 <input
@@ -196,7 +176,26 @@ export default function AdminApp({ initial, storage }: Props) {
                 + Add images
               </label>
             )}
-          </div>
+              </>
+            }
+          >
+            {(img, i) => (
+              <SortableItem key={img.url} id={img.url} as="figure" className="thumb">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img.url} alt="" draggable={false} />
+                {i === 0 && <span className="badge">Front page</span>}
+                {img.width !== img.height && <span className="warn">Not square</span>}
+                <button
+                  className="remove"
+                  title="Remove image"
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onClick={() => setDraft({ ...draft, images: draft.images.filter((_, k) => k !== i) })}
+                >
+                  ✕
+                </button>
+              </SortableItem>
+            )}
+          </SortableList>
 
           {error && <p className="error">{error}</p>}
           <div className="row">
@@ -237,12 +236,21 @@ export default function AdminApp({ initial, storage }: Props) {
         </button>
       </div>
       {error && <p className="error">{error}</p>}
-      <p className="hint">The order here is the order on the front page.</p>
-      <ul className="list">
-        {projects.map((p, i) => (
-          <li key={p.id}>
+      <p className="hint">Drag ⠿ to change the order. The order here is the order on the front page.</p>
+      <SortableList
+        items={projects}
+        getId={(p) => p.id}
+        onReorder={(next) => {
+          setProjects(next);
+          save(next);
+        }}
+        layout="list"
+        className="list"
+      >
+        {(p) => (
+          <SortableItem key={p.id} id={p.id} handle>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={p.images[0]?.url} alt="" />
+            <img src={p.images[0]?.url} alt="" draggable={false} />
             <div className="meta">
               <b>{p.name}</b>
               <span>
@@ -250,16 +258,6 @@ export default function AdminApp({ initial, storage }: Props) {
               </span>
             </div>
             <div className="actions">
-              <button title="Move up" disabled={!!busy || i === 0} onClick={() => save(move(projects, i, i - 1))}>
-                ↑
-              </button>
-              <button
-                title="Move down"
-                disabled={!!busy || i === projects.length - 1}
-                onClick={() => save(move(projects, i, i + 1))}
-              >
-                ↓
-              </button>
               <button
                 onClick={() => {
                   setError("");
@@ -270,9 +268,9 @@ export default function AdminApp({ initial, storage }: Props) {
               </button>
               <button onClick={() => remove(p)}>Delete</button>
             </div>
-          </li>
-        ))}
-      </ul>
+          </SortableItem>
+        )}
+      </SortableList>
     </main>
   );
 }
