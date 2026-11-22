@@ -89,7 +89,7 @@ button {
 /* Front page image size inside its grid cell: 1 = fills the cell, 0.8 = 80%, shrunk
    towards the centre (the cell and caption stay where they are). */
 :root {
-  --tile-scale: 0.8;
+  --tile-scale: 1;
 }
 .tile-img-inner {
   position: absolute;
@@ -198,16 +198,17 @@ button {
   object-fit: contain;
 }
 
+/* Each arrow is a big invisible click/tap area: the whole left or right half of the
+   image row. The visible arrow sits at the outer edge. */
 .arrow {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 64px;
+  top: 0;
+  bottom: 0;
+  width: 50%;
   display: flex;
   align-items: center;
-  justify-content: center;
   z-index: 2;
+  -webkit-tap-highlight-color: transparent;
 }
 .arrow svg {
   width: 14px;
@@ -219,18 +220,31 @@ button {
 .arrow:hover svg {
   stroke-width: 1.8;
 }
+.arrow:focus {
+  outline: none;
+}
+.arrow:focus-visible svg {
+  outline: 1px solid var(--fg);
+  outline-offset: 6px;
+}
 .arrow.prev {
-  left: 4px;
+  left: 0;
+  justify-content: flex-start;
+  padding-left: 19px;
+  cursor: w-resize;
 }
 .arrow.next {
-  right: 4px;
+  right: 0;
+  justify-content: flex-end;
+  padding-right: 19px;
+  cursor: e-resize;
 }
 @media (min-width: 700px) {
   .arrow.prev {
-    left: 32px;
+    padding-left: 47px;
   }
   .arrow.next {
-    right: 32px;
+    padding-right: 47px;
   }
 }
 
