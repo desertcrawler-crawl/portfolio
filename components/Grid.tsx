@@ -70,6 +70,7 @@ export default function Grid({ projects }: { projects: Project[] }) {
           onPointerDown={() => preload(p)}
         >
           <div className="tile-img">
+            <div className="tile-img-inner">
             <Image
               src={p.images[0].url}
               alt={p.name}
@@ -78,6 +79,7 @@ export default function Grid({ projects }: { projects: Project[] }) {
               priority={i < 6}
               unoptimized={isSvg(p.images[0].url)}
             />
+            </div>
           </div>
           <div className="tile-caption">{p.name}</div>
         </Link>
