@@ -97,6 +97,36 @@ button {
   text-align: center;
 }
 
+/* ---------- footer (front page) ---------- */
+/* yeezy.com footer type: 14px / 20px, grey #6e6e6e, uppercase, centred; 8px / 11.4px on phones.
+   Wider gaps between the three items than yeezy so they read as separate parts. */
+.site-footer {
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 40px;
+}
+.site-footer a {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 12px;
+  row-gap: 4px;
+  font-size: 8px;
+  line-height: 11.4286px;
+  color: #6e6e6e;
+  text-align: center;
+}
+.site-footer a:hover {
+  color: var(--fg);
+}
+@media (min-width: 768px) {
+  .site-footer a {
+    font-size: 14px;
+    line-height: 20px;
+    column-gap: 40px;
+  }
+}
+
 .empty {
   text-align: center;
   color: var(--muted);

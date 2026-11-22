@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getProjects } from "@/lib/store";
+import { CONTACT_EMAIL } from "@/lib/config";
 
 export const revalidate = 3600;
 
@@ -12,6 +13,7 @@ export default async function Home() {
   }
 
   return (
+    <>
     <main className="grid">
       {projects.map((p, i) => (
         <Link key={p.id} href={`/p/${p.slug}`} className="tile">
@@ -28,5 +30,13 @@ export default async function Home() {
         </Link>
       ))}
     </main>
+    <footer className="site-footer">
+      <a href={`mailto:${CONTACT_EMAIL}`}>
+        <span>Niclas Sellebråten</span>
+        <span>Art Director &amp; Type Consultant</span>
+        <span>Open for work</span>
+      </a>
+    </footer>
+    </>
   );
 }

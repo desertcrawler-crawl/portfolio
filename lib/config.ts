@@ -10,3 +10,6 @@ export const STORAGE: "static" | "blob" | "local" =
 
 // Set when the site lives in a sub-folder, e.g. desertcrawler-crawl.github.io/portfolio
 export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+// Footer on the front page opens an email to this address.
+export const CONTACT_EMAIL = "selle@me.com";
