@@ -1,8 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
+import Grid from "@/components/Grid";
 import { getProjects } from "@/lib/store";
 import { CONTACT_EMAIL, CONTACT_SUBJECT } from "@/lib/config";
-import { isSvg } from "@/lib/types";
 
 export const revalidate = 3600;
 
@@ -15,23 +13,7 @@ export default async function Home() {
 
   return (
     <>
-    <main className="grid">
-      {projects.map((p, i) => (
-        <Link key={p.id} href={`/p/${p.slug}`} className="tile">
-          <div className="tile-img">
-            <Image
-              src={p.images[0].url}
-              alt={p.name}
-              fill
-              sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 17vw"
-              priority={i < 6}
-              unoptimized={isSvg(p.images[0].url)}
-            />
-          </div>
-          <div className="tile-caption">{p.name}</div>
-        </Link>
-      ))}
-    </main>
+    <Grid projects={projects} />
     <footer className="site-footer">
       <a href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(CONTACT_SUBJECT)}`}>
         <span>Niclas Sellebråten</span>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import localFont from "next/font/local";
 import { SITE_TITLE } from "@/lib/config";
+import ZoomOverlay from "@/components/ZoomOverlay";
 import "./globals.css";
 
 const plexMono = localFont({
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </Link>
         </header>
         {children}
+        <ZoomOverlay />
       </body>
     </html>
   );

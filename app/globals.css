@@ -93,6 +93,25 @@ button {
 .tile:hover .tile-img img {
   opacity: 0.85;
 }
+/* clicking a project: the others fade away while its image flies to the centre */
+.grid .tile {
+  transition: opacity 0.25s ease;
+}
+.grid.leaving .tile {
+  opacity: 0;
+  pointer-events: none;
+}
+.grid.leaving .tile.chosen {
+  opacity: 1;
+}
+.grid.leaving .tile.chosen .tile-img,
+.grid.leaving .tile.chosen .tile-caption {
+  visibility: hidden;
+}
+.grid.leaving ~ .site-footer {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
 .tile-caption {
   text-align: center;
 }
