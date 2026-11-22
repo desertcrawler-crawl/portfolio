@@ -12,7 +12,7 @@ function readSize(file: File): Promise<{ width: number; height: number }> {
   return new Promise((resolve) => {
     const img = new Image();
     img.onload = () => {
-      resolve({ width: img.naturalWidth, height: img.naturalHeight });
+      resolve({ width: img.naturalWidth || 1024, height: img.naturalHeight || 1024 });
       URL.revokeObjectURL(img.src);
     };
     img.onerror = () => resolve({ width: 1024, height: 1024 });

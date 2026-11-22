@@ -8,7 +8,7 @@ import { deleteImages, getProjects, LOCAL_UPLOADS } from "@/lib/store";
 
 export const dynamic = "force-dynamic";
 
-const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif", "image/avif"];
+const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif", "image/avif", "image/svg+xml"];
 
 export async function POST(req: Request) {
   if (!(await isAdmin())) return NextResponse.json({ error: "Not logged in" }, { status: 401 });

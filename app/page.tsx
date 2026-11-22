@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getProjects } from "@/lib/store";
 import { CONTACT_EMAIL } from "@/lib/config";
+import { isSvg } from "@/lib/types";
 
 export const revalidate = 3600;
 
@@ -24,6 +25,7 @@ export default async function Home() {
               fill
               sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 17vw"
               priority={i < 6}
+              unoptimized={isSvg(p.images[0].url)}
             />
           </div>
           <div className="tile-caption">{p.name}</div>

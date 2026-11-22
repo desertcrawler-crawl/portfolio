@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ProjectImage } from "@/lib/types";
+import { isSvg, type ProjectImage } from "@/lib/types";
 
 type Props = { name: string; info: string; images: ProjectImage[] };
 
@@ -52,6 +52,7 @@ export default function Carousel({ name, info, images }: Props) {
                 fill
                 sizes="(max-width: 700px) 100vw, 760px"
                 priority={i === 0}
+                unoptimized={isSvg(img.url)}
                 loading={i === 0 ? undefined : "eager"}
               />
             </div>
