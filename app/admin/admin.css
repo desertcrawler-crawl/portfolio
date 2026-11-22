@@ -1,0 +1,156 @@
+.admin {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+  font-size: 13px;
+}
+.admin.narrow {
+  max-width: 360px;
+  padding-top: 80px;
+}
+.admin h2 {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 16px 0;
+}
+.admin .bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+}
+.admin .status {
+  color: #8a8a8a;
+}
+.admin .stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.admin .row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+.admin .label {
+  color: #555;
+  margin-top: 10px;
+}
+.admin input,
+.admin textarea {
+  font: inherit;
+  font-size: 16px; /* stops iPhone zooming in */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+}
+.admin .btn {
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 10px 16px;
+}
+.admin .btn.primary {
+  background: #000;
+  color: #fff;
+}
+.admin .btn:disabled {
+  opacity: 0.4;
+}
+.admin .link {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.admin .error {
+  color: #c00;
+}
+.admin .hint {
+  color: #8a8a8a;
+}
+.admin .thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+}
+.admin .thumb {
+  margin: 0;
+  position: relative;
+  border: 1px solid #eee;
+}
+.admin .thumb img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  background: #fafafa;
+}
+.admin .thumb figcaption {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 6px;
+}
+.admin .thumb figcaption button {
+  padding: 4px 8px;
+}
+.admin .thumb .warn {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: #ffd23f;
+  font-size: 10px;
+  padding: 2px 5px;
+}
+.admin .thumb.add {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #aaa;
+  cursor: pointer;
+  color: #555;
+}
+.admin .list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.admin .list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.admin .list img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  background: #fafafa;
+}
+.admin .meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.admin .meta span {
+  color: #8a8a8a;
+}
+.admin .actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.admin .actions button {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+.admin .actions button:disabled {
+  opacity: 0.3;
+}

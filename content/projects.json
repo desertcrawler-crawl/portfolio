@@ -1,0 +1,203 @@
+{
+  "projects": [
+    {
+      "id": "swiss",
+      "slug": "swiss",
+      "name": "Swiss International Air Lines",
+      "info": "Placeholder text: send me one sentence about this project and I will put it here.",
+      "images": [
+        {
+          "url": "/content/swiss/1.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/swiss/2.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/swiss/3.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/swiss/4.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/swiss/5.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "id": "placeholder-2",
+      "slug": "placeholder-2",
+      "name": "Placeholder project 2",
+      "info": "Placeholder text for the Information link.",
+      "images": [
+        {
+          "url": "/content/placeholder-2/1.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-2/2.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "id": "placeholder-3",
+      "slug": "placeholder-3",
+      "name": "Placeholder project 3",
+      "info": "Placeholder text for the Information link.",
+      "images": [
+        {
+          "url": "/content/placeholder-3/1.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-3/2.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-3/3.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-3/4.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "id": "placeholder-4",
+      "slug": "placeholder-4",
+      "name": "Placeholder project 4",
+      "info": "Placeholder text for the Information link.",
+      "images": [
+        {
+          "url": "/content/placeholder-4/1.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-4/2.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-4/3.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-4/4.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "id": "placeholder-5",
+      "slug": "placeholder-5",
+      "name": "Placeholder project 5",
+      "info": "Placeholder text for the Information link.",
+      "images": [
+        {
+          "url": "/content/placeholder-5/1.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-5/2.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "id": "placeholder-6",
+      "slug": "placeholder-6",
+      "name": "Placeholder project 6",
+      "info": "Placeholder text for the Information link.",
+      "images": [
+        {
+          "url": "/content/placeholder-6/1.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-6/2.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-6/3.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "id": "placeholder-7",
+      "slug": "placeholder-7",
+      "name": "Placeholder project 7",
+      "info": "Placeholder text for the Information link.",
+      "images": [
+        {
+          "url": "/content/placeholder-7/1.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-7/2.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-7/3.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-7/4.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    },
+    {
+      "id": "placeholder-8",
+      "slug": "placeholder-8",
+      "name": "Placeholder project 8",
+      "info": "Placeholder text for the Information link.",
+      "images": [
+        {
+          "url": "/content/placeholder-8/1.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-8/2.webp",
+          "width": 1024,
+          "height": 1024
+        },
+        {
+          "url": "/content/placeholder-8/3.webp",
+          "width": 1024,
+          "height": 1024
+        }
+      ]
+    }
+  ]
+}
