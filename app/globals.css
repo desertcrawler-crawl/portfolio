@@ -166,7 +166,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 0 80px;
+  padding: 0 0 24px;
 }
 
 .carousel {
@@ -177,11 +177,12 @@ button {
   user-select: none;
   touch-action: pan-y;
 }
-/* yeezy.com product image = window height minus 448px
-   (358px in an 806px-tall window, 219px in a 667px-tall phone), never wider than the screen allows */
+/* Project image: as big as the window allows while the dots, name and "Information"
+   still fit below it (64px header + ~112px text + 24px margin = 200px), never wider than
+   the screen allows and never above the images' own 1024px. */
 .stage {
   position: relative;
-  width: max(160px, min(calc(100vw - 120px), calc(100vh - 448px)));
+  width: max(160px, min(calc(100vw - 120px), calc(100vh - 200px), 1024px));
   aspect-ratio: 1 / 1;
 }
 .slide {
