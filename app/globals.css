@@ -64,7 +64,8 @@ button {
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  /* space between the images: yeezy uses 16px; 0 = images touch */
+  gap: 0;
   padding: 0 16px 32px;
 }
 @media (min-width: 768px) {
