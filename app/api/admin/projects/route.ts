@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { isAdmin } from "@/lib/auth";
-import { PROJECTS_TAG, getProjects, saveProjects } from "@/lib/store";
+import { getProjectsForAdmin, saveProjects } from "@/lib/store";
+import { STORAGE } from "@/lib/config";
 import { slugify } from "@/lib/slug";
 import { MAX_IMAGES, MIN_IMAGES, type Project } from "@/lib/types";
 
@@ -9,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   if (!(await isAdmin())) return NextResponse.json({ error: "Not logged in" }, { status: 401 });
-  return NextResponse.json({ projects: await getProjects() });
+  return NextResponse.json({ projects: await getProjectsForAdmin() });
 }
 
 export async function PUT(req: Request) {
@@ -44,8 +45,13 @@ export async function PUT(req: Request) {
     projects.push({ id: String(raw.id || crypto.randomUUID()), slug, name, info, images });
   }
 
-  await saveProjects(projects);
-  revalidateTag(PROJECTS_TAG);
-  revalidatePath("/", "layout");
-  return NextResponse.json({ projects });
+  const newImages = body.newImages && typeof body.newImages === "object" ? body.newImages : {};
+  try {
+    await saveProjects(projects, newImages);
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({ error: "Saving failed. Please try again." }, { status: 502 });
+  }
+  if (STORAGE === "local") revalidatePath("/", "layout");
+  return NextResponse.json({ projects, publishing: STORAGE === "github" });
 }

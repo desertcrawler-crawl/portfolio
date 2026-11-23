@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { isAdmin, passwordConfigured } from "@/lib/auth";
 import { STORAGE } from "@/lib/config";
-import { getProjects } from "@/lib/store";
+import { getProjectsForAdmin } from "@/lib/store";
+import { GITHUB_BRANCH, GITHUB_REPO } from "@/lib/github";
 import AdminApp from "./AdminApp";
 import Login from "./Login";
 import "./admin.css";
@@ -21,5 +22,9 @@ export default async function AdminPage() {
     );
   }
   if (!(await isAdmin())) return <Login />;
-  return <AdminApp initial={await getProjects()} storage={STORAGE === "blob" ? "blob" : "local"} />;
+    // On Vercel, images saved a moment ago aren't part of the published site yet, so the
+  // admin shows them straight from GitHub.
+  const rawBase =
+    STORAGE === "github" ? `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/public` : null;
+  return <AdminApp initial={await getProjectsForAdmin()} rawBase={rawBase} />;
 }

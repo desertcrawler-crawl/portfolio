@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { upload } from "@vercel/blob/client";
 import { SortableItem, SortableList } from "./Sortable";
 import { MAX_IMAGES, MIN_IMAGES, type Project, type ProjectImage } from "@/lib/types";
 
 type Draft = { id?: string; name: string; info: string; images: ProjectImage[] };
-type Props = { initial: Project[]; storage: "blob" | "local" };
+type Props = { initial: Project[]; rawBase: string | null };
+type Pending = Record<string, { sha?: string; preview: string }>;
+
+const MAX_UPLOAD_BYTES = 4.3 * 1024 * 1024; // Vercel accepts up to ~4.5 MB per request
 
 function readSize(file: File): Promise<{ width: number; height: number }> {
   return new Promise((resolve) => {
@@ -20,20 +22,32 @@ function readSize(file: File): Promise<{ width: number; height: number }> {
   });
 }
 
-export default function AdminApp({ initial, storage }: Props) {
+export default function AdminApp({ initial, rawBase }: Props) {
   const [projects, setProjects] = useState<Project[]>(initial);
   const [draft, setDraft] = useState<Draft | null>(null);
-  const [fresh, setFresh] = useState<string[]>([]); // uploaded during this edit, not saved yet
+  const [pending, setPending] = useState<Pending>({}); // uploaded this session
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+
+  // Where the admin can show an image right now (new uploads from this computer,
+  // saved ones straight from GitHub so they appear before the site has republished).
+  const show = (url?: string) =>
+    !url ? "" : pending[url]?.preview ?? (rawBase && url.startsWith("/content/") ? rawBase + url : url);
 
   async function save(next: Project[] | Draft[]) {
     setBusy("Saving…");
     setError("");
+    setNotice("");
+    const newImages = Object.fromEntries(
+      Object.entries(pending)
+        .filter(([, v]) => v.sha)
+        .map(([u, v]) => [u, v.sha]),
+    );
     const res = await fetch("/api/admin/projects", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ projects: next }),
+      body: JSON.stringify({ projects: next, newImages }),
     });
     const data = await res.json().catch(() => ({}));
     setBusy("");
@@ -42,6 +56,7 @@ export default function AdminApp({ initial, storage }: Props) {
       return false;
     }
     setProjects(data.projects);
+    if (data.publishing) setNotice("Saved. The live site updates in about a minute.");
     return true;
   }
 
@@ -54,41 +69,23 @@ export default function AdminApp({ initial, storage }: Props) {
     for (const [n, file] of chosen.entries()) {
       setBusy(`Uploading ${n + 1} of ${chosen.length}…`);
       try {
+        if (file.size > MAX_UPLOAD_BYTES) throw new Error("It is larger than 4 MB. Please export it smaller.");
         const size = await readSize(file);
-        let url: string;
-        if (storage === "blob") {
-          const blob = await upload(`images/${file.name}`, file, {
-            access: "public",
-            handleUploadUrl: "/api/admin/upload",
-          });
-          url = blob.url;
-        } else {
-          const fd = new FormData();
-          fd.append("file", file);
-          const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-          if (!res.ok) throw new Error((await res.json()).error);
-          url = (await res.json()).url;
-        }
+        const fd = new FormData();
+        fd.append("file", file);
+        const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
+        const url: string = data.url;
+        const preview = URL.createObjectURL(file);
+        setPending((p) => ({ ...p, [url]: { sha: data.sha, preview } }));
         added.push({ url, ...size });
       } catch (e) {
         setError(`Could not upload ${file.name}. ${e instanceof Error ? e.message : ""}`);
       }
     }
     setBusy("");
-    setFresh((f) => [...f, ...added.map((a) => a.url)]);
     setDraft((d) => (d ? { ...d, images: [...d.images, ...added] } : d));
-  }
-
-  async function discardFresh(keep: Set<string> = new Set()) {
-    const urls = fresh.filter((u) => !keep.has(u));
-    setFresh([]);
-    if (urls.length) {
-      await fetch("/api/admin/upload", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ urls }),
-      });
-    }
   }
 
   async function saveDraft() {
@@ -98,14 +95,10 @@ export default function AdminApp({ initial, storage }: Props) {
     const next = draft.id
       ? projects.map((p) => (p.id === draft.id ? { ...p, ...draft } : p))
       : [{ ...draft, id: "", slug: "" } as Project, ...projects];
-    if (await save(next)) {
-      await discardFresh(new Set(draft.images.map((i) => i.url)));
-      setDraft(null);
-    }
+    if (await save(next)) setDraft(null);
   }
 
-  async function cancel() {
-    await discardFresh();
+  function cancel() {
     setDraft(null);
     setError("");
   }
@@ -182,7 +175,7 @@ export default function AdminApp({ initial, storage }: Props) {
             {(img, i) => (
               <SortableItem key={img.url} id={img.url} as="figure" className="thumb">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.url} alt="" draggable={false} />
+                <img src={show(img.url)} alt="" draggable={false} />
                 {i === 0 && <span className="badge">Front page</span>}
                 {img.width !== img.height && <span className="warn">Not square</span>}
                 <button
@@ -236,6 +229,7 @@ export default function AdminApp({ initial, storage }: Props) {
         </button>
       </div>
       {error && <p className="error">{error}</p>}
+      {notice && <p className="notice">{notice}</p>}
       <p className="hint">Drag ⠿ to change the order. The order here is the order on the front page.</p>
       <SortableList
         items={projects}
@@ -250,7 +244,7 @@ export default function AdminApp({ initial, storage }: Props) {
         {(p) => (
           <SortableItem key={p.id} id={p.id} handle>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={p.images[0]?.url} alt="" draggable={false} />
+            <img src={show(p.images[0]?.url)} alt="" draggable={false} />
             <div className="meta">
               <b>{p.name}</b>
               <span>
