@@ -25,6 +25,21 @@ const MAX_WAIT_MS = 300; // longest we wait for the sharp file before starting t
 export default function Grid({ projects }: { projects: Project[] }) {
   const router = useRouter();
   const [leaving, setLeaving] = useState<string | null>(null);
+  // "+" in the top left: fewer, bigger images. Remembered while the visitor browses.
+  const [big, setBig] = useState(false);
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem("grid-big") === "1") setBig(true);
+    } catch {}
+  }, []);
+  function toggleBig() {
+    setBig((b) => {
+      try {
+        sessionStorage.setItem("grid-big", b ? "0" : "1");
+      } catch {}
+      return !b;
+    });
+  }
   const full = useMemo(() => new Map(projects.map((p) => [p.id, fullProps(p)])), [projects]);
 
   const preload = (p: Project) => {
@@ -59,7 +74,20 @@ export default function Grid({ projects }: { projects: Project[] }) {
   }
 
   return (
-    <main className={`grid${leaving ? " leaving" : ""}`}>
+    <>
+    <button
+      type="button"
+      className="grid-toggle"
+      aria-label={big ? "Show smaller images" : "Show bigger images"}
+      aria-pressed={big}
+      onClick={toggleBig}
+    >
+      <svg viewBox="0 0 15 15" aria-hidden="true">
+        <path d="M0 7.5h15" />
+        {!big && <path d="M7.5 0v15" />}
+      </svg>
+    </button>
+    <main className={`grid${big ? " big" : ""}${leaving ? " leaving" : ""}`}>
       {projects.map((p, i) => (
         <Link
           key={p.id}
@@ -75,7 +103,11 @@ export default function Grid({ projects }: { projects: Project[] }) {
               src={p.images[0].url}
               alt={p.name}
               fill
-              sizes="(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 17vw"
+              sizes={
+                big
+                  ? "(max-width: 768px) 50vw, 34vw"
+                  : "(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 17vw"
+              }
               priority={i < 6}
               unoptimized={isSvg(p.images[0].url)}
             />
@@ -85,5 +117,6 @@ export default function Grid({ projects }: { projects: Project[] }) {
         </Link>
       ))}
     </main>
+    </>
   );
 }
