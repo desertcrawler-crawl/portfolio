@@ -30,34 +30,24 @@ export async function POST() {
     );
     const mapped = new Map<string, { local: string; sha: string }>();
     const failed: string[] = [];
-    const reasons = new Set<string>();
     let next = 0;
     async function worker() {
       while (next < urls.length) {
         const u = urls[next++];
         try {
-          let r = await fetch(u, { cache: "no-store" });
-          if (!r.ok)
-            r = await fetch(u, { cache: "no-store", headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` } });
-          if (!r.ok) throw new Error(`Reading from the Blob store failed (${r.status} ${(await r.text().catch(() => "")).slice(0, 120)})`);
-          const data = Buffer.from(await r.arrayBuffer());
-          let sha: string;
-          try {
-            sha = await createImageBlob(data);
-          } catch (e) {
-            throw new Error(`Writing to GitHub failed (${e instanceof Error ? e.message.slice(0, 160) : e})`);
-          }
+          const r = await fetch(u, { cache: "no-store" });
+          if (!r.ok) throw new Error(String(r.status));
+          const sha = await createImageBlob(Buffer.from(await r.arrayBuffer()));
           const name = path.basename(new URL(u).pathname).replace(/[^a-zA-Z0-9._-]/g, "-");
           mapped.set(u, { local: `/content/${name}`, sha });
-        } catch (e) {
+        } catch {
           failed.push(u);
-          reasons.add(e instanceof Error ? e.message : String(e));
         }
       }
     }
     await Promise.all(Array.from({ length: 4 }, worker));
     if (failed.length)
-      return NextResponse.json({ error: `${failed.length} of ${urls.length} images could not be copied. Nothing was changed. Reason: ${[...reasons].slice(0, 2).join(" / ")}` }, { status: 502 });
+      return NextResponse.json({ error: `${failed.length} of ${urls.length} images could not be copied. Nothing was changed; please try again.` }, { status: 502 });
 
     const fixed = projects.map((p) => ({
       ...p,
