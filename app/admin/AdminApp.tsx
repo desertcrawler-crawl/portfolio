@@ -29,7 +29,6 @@ export default function AdminApp({ initial, rawBase }: Props) {
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
-  const [importing, setImporting] = useState(false);
 
   // Where the admin can show an image right now (new uploads from this computer,
   // saved ones straight from GitHub so they appear before the site has republished).
@@ -231,33 +230,6 @@ export default function AdminApp({ initial, rawBase }: Props) {
       </div>
       {error && <p className="error">{error}</p>}
       {notice && <p className="notice">{notice}</p>}
-      <p>
-        <button
-          className="btn"
-          disabled={importing}
-          onClick={async () => {
-            if (!confirm("Replace the projects below with the ones saved in the old Blob store?")) return;
-            setImporting(true);
-            setError("");
-            setNotice("Copying projects and images from the Blob store. This can take a few minutes…");
-            try {
-              const res = await fetch("/api/admin/import-blob", { method: "POST" });
-              const data = await res.json().catch(() => ({}));
-              if (!res.ok) {
-                setNotice("");
-                setError(data.error || `Import failed (${res.status}).`);
-              } else {
-                setProjects(data.projects);
-                setNotice(`Imported ${data.projects.length} projects and ${data.images} images. The live site updates in about a minute.`);
-              }
-            } finally {
-              setImporting(false);
-            }
-          }}
-        >
-          {importing ? "Importing…" : "Import from old Blob store"}
-        </button>
-      </p>
       <p className="hint">Drag ⠿ to change the order. The order here is the order on the front page.</p>
       <SortableList
         items={projects}
