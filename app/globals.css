@@ -124,6 +124,11 @@ button {
 .tile-caption {
   text-align: center;
 }
+/* Trying the front page without names under the images.
+   Delete this rule to bring the names back. */
+.tile-caption {
+  display: none;
+}
 
 /* ---------- footer (front page) ---------- */
 /* yeezy.com footer type: 14px / 20px, grey #6e6e6e, uppercase, centred; 8px / 11.4px on phones.
