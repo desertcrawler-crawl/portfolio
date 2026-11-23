@@ -2,7 +2,8 @@ import Grid from "@/components/Grid";
 import { getProjects } from "@/lib/store";
 import { CONTACT_EMAIL, CONTACT_SUBJECT } from "@/lib/config";
 
-export const revalidate = 3600;
+// Pages are rebuilt only when you save in the admin.
+export const revalidate = false;
 
 export default async function Home() {
   const projects = (await getProjects()).filter((p) => p.images.length > 0);

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { isAdmin } from "@/lib/auth";
-import { getProjects, saveProjects } from "@/lib/store";
+import { PROJECTS_TAG, getProjects, saveProjects } from "@/lib/store";
 import { slugify } from "@/lib/slug";
 import { MAX_IMAGES, MIN_IMAGES, type Project } from "@/lib/types";
 
@@ -45,6 +45,7 @@ export async function PUT(req: Request) {
   }
 
   await saveProjects(projects);
+  revalidateTag(PROJECTS_TAG);
   revalidatePath("/", "layout");
   return NextResponse.json({ projects });
 }

@@ -5,7 +5,8 @@ import { getProject, getProjects } from "@/lib/store";
 import { SITE_TITLE } from "@/lib/config";
 import Carousel from "@/components/Carousel";
 
-export const revalidate = 3600;
+// Pages are rebuilt only when you save in the admin.
+export const revalidate = false;
 
 export async function generateStaticParams() {
   return (await getProjects()).map((p) => ({ slug: p.slug }));
