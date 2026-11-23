@@ -27,4 +27,4 @@ with a carousel (arrows, swipe, dots), the project name and an "Information" lin
 
 ## Images
 
-Square 1024×1024 images work best. 2 to 6 images per project; the first is shown on the front page.
+Square 1024×1024 images work best. 2 to 8 images per project; the first is shown on the front page.

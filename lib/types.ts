@@ -19,4 +19,4 @@ export const isSvg = (url: string) => /\.svg(\?|$)/i.test(url);
 export const PROJECT_IMAGE_SIZES = "(max-width: 700px) 100vw, 1024px";
 
 export const MIN_IMAGES = 2;
-export const MAX_IMAGES = 6;
+export const MAX_IMAGES = 8;
