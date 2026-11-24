@@ -11,6 +11,7 @@ export default function Carousel({ name, info, images }: Props) {
   const [index, setIndex] = useState(0);
   const [showInfo, setShowInfo] = useState(false);
   const touchX = useRef<number | null>(null);
+  const infoRef = useRef<HTMLParagraphElement>(null);
   const count = images.length;
 
   const go = useCallback((delta: number) => setIndex((i) => (i + delta + count) % count), [count]);
@@ -24,6 +25,16 @@ export default function Carousel({ name, info, images }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [go]);
 
+
+  // When the Information text opens below the fold, slide the page up just enough to show it.
+  useEffect(() => {
+    if (!showInfo || !infoRef.current) return;
+    const overflow = infoRef.current.getBoundingClientRect().bottom + 24 - window.innerHeight;
+    if (overflow > 0) {
+      const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollBy({ top: overflow, behavior: smooth ? "smooth" : "auto" });
+    }
+  }, [showInfo]);
   return (
     <>
       <div
@@ -94,7 +105,11 @@ export default function Carousel({ name, info, images }: Props) {
           <button className="info-toggle" aria-expanded={showInfo} onClick={() => setShowInfo((s) => !s)}>
             Information
           </button>
-          {showInfo && <p className="info-text">{info}</p>}
+          {showInfo && (
+            <p className="info-text" ref={infoRef}>
+              {info}
+            </p>
+          )}
         </>
       )}
     </>
