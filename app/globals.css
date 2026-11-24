@@ -242,6 +242,10 @@ button {
 .slide.active {
   opacity: 1;
 }
+/* while a finger swipe is under way, images slide; keep them inside the image area */
+.stage.swiping {
+  overflow: hidden;
+}
 .slide img {
   object-fit: contain;
 }
