@@ -25,17 +25,17 @@ const MAX_WAIT_MS = 300; // longest we wait for the sharp file before starting t
 export default function Grid({ projects }: { projects: Project[] }) {
   const router = useRouter();
   const [leaving, setLeaving] = useState<string | null>(null);
-  // "+" in the top left: fewer, bigger images. Remembered while the visitor browses.
-  const [big, setBig] = useState(false);
+  // "–" in the top left: more, smaller images ("+" goes back). Remembered while the visitor browses.
+  const [small, setSmall] = useState(false);
   useEffect(() => {
     try {
-      if (sessionStorage.getItem("grid-big") === "1") setBig(true);
+      if (sessionStorage.getItem("grid-small") === "1") setSmall(true);
     } catch {}
   }, []);
-  function toggleBig() {
-    setBig((b) => {
+  function toggleSmall() {
+    setSmall((b) => {
       try {
-        sessionStorage.setItem("grid-big", b ? "0" : "1");
+        sessionStorage.setItem("grid-small", b ? "0" : "1");
       } catch {}
       return !b;
     });
@@ -78,16 +78,16 @@ export default function Grid({ projects }: { projects: Project[] }) {
     <button
       type="button"
       className="grid-toggle"
-      aria-label={big ? "Show smaller images" : "Show bigger images"}
-      aria-pressed={big}
-      onClick={toggleBig}
+      aria-label={small ? "Show bigger images" : "Show smaller images"}
+      aria-pressed={small}
+      onClick={toggleSmall}
     >
       <svg viewBox="0 0 15 15" aria-hidden="true">
         <path d="M0 7.5h15" />
-        {!big && <path d="M7.5 0v15" />}
+        {small && <path d="M7.5 0v15" />}
       </svg>
     </button>
-    <main className={`grid${big ? " big" : ""}${leaving ? " leaving" : ""}`}>
+    <main className={`grid${small ? " small" : ""}${leaving ? " leaving" : ""}`}>
       {projects.map((p, i) => (
         <Link
           key={p.id}
@@ -104,11 +104,11 @@ export default function Grid({ projects }: { projects: Project[] }) {
               alt={p.name}
               fill
               sizes={
-                big
-                  ? "(max-width: 768px) 50vw, 34vw"
-                  : "(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 17vw"
+                small
+                  ? "(max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                  : "(max-width: 768px) 50vw, 34vw"
               }
-              priority={i < 6}
+              priority={i < 9}
               unoptimized={isSvg(p.images[0].url)}
             />
             </div>

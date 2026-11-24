@@ -63,32 +63,32 @@ button {
 /* yeezy.com: 16px gaps, 0 16px 32px padding; 3 columns on phones (375px), 6 at ~1069px */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* default: big images. Phone 2 columns, from 768px 3 columns */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   /* space between the images: yeezy uses 16px; 0 = images touch */
   gap: 0;
   padding: 0 16px 32px;
 }
 @media (min-width: 768px) {
   .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+/* after tapping "–" in the top left: smaller images. Phone 3, tablet 4, desktop 5 */
+.grid.small {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (min-width: 768px) {
+  .grid.small {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 @media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+  .grid.small {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 
-/* "+" button (top left, level with the title): bigger images.
-   Desktop 6 -> 3 columns, tablet 4 -> 2, phone 3 -> 2. */
-.grid.big {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-@media (min-width: 1024px) {
-  .grid.big {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
 .grid-toggle {
   position: absolute;
   top: 14px; /* centred on the title line */
