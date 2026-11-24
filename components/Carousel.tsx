@@ -55,7 +55,16 @@ export default function Carousel({ name, info, images }: Props) {
           </button>
         )}
 
-        <div className="stage">
+        {/* Tapping the left or right half of the image changes image. On desktop the arrow
+            areas cover the image, so this is only reached on phones. */}
+        <div
+          className="stage"
+          onClick={(e) => {
+            if (count < 2) return;
+            const r = e.currentTarget.getBoundingClientRect();
+            go(e.clientX < r.left + r.width / 2 ? -1 : 1);
+          }}
+        >
           {images.map((img, i) => (
             <div key={img.url} className={`slide${i === index ? " active" : ""}`} aria-hidden={i !== index}>
               <Image

@@ -296,6 +296,31 @@ button {
   }
 }
 
+/* Phones only: the image uses the full width (16px margin each side) and the arrows sit
+   underneath it, level with the dots. Swiping or tapping either half of the image also
+   changes image. Desktop and tablets (700px and up) are unchanged. */
+@media (max-width: 699px) {
+  .stage {
+    width: max(160px, min(calc(100vw - 32px), calc(100vh - 200px)));
+  }
+  .arrow {
+    top: 100%;
+    bottom: auto;
+    height: 50px; /* centred on the dots row below (22px gap + 6px dots) */
+    width: 64px;
+  }
+  .arrow.prev {
+    padding-left: 16px;
+  }
+  .arrow.next {
+    padding-right: 16px;
+  }
+  .arrow svg {
+    width: 9px;
+    height: 18px;
+  }
+}
+
 .dots {
   display: flex;
   gap: 8px;
